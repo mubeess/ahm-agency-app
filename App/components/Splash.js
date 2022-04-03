@@ -5,7 +5,7 @@ import { Fonts } from '../fonts'
 import {Colors} from '../colors'
 import { Button } from 'react-native-paper';
 
-export default function Splash() {
+export default function Splash({proceed}) {
     return (
         <View style={styles.container}>
            <StatusBar backgroundColor={Colors.primary}/>
@@ -16,7 +16,9 @@ export default function Splash() {
            </Text>
            <View style={styles.icon}>
            <Image style={styles.img} source={require('../../assets/images/ico.png')}/>
-           <Button icon='arrow-right-bold-circle' dark color='white' style={{
+           <Button onPress={()=>{
+               proceed()
+           }} icon='arrow-right-bold-circle' dark color='white' style={{
                width:'80%',
                marginTop:10,
            }} mode='outlined'>Proceed</Button>
