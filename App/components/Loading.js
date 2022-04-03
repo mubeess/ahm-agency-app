@@ -6,7 +6,7 @@ import { Colors } from '../colors';
 const Loading = () => {
     return (
         <View style={styles.cont}>
-            <StatusBar backgroundColor='#ffffff'/>
+            <StatusBar backgroundColor={Colors.primary}/>
             <Progress size={100} color={[Colors.primary,Colors.secondary,Colors.success]} />
         </View>
     )
