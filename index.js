@@ -4,12 +4,13 @@ import {AppRegistry} from 'react-native';
 import App from './App';
 import {name as appName} from './app.json';
 import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
+import { Colors } from './App/colors';
 
 const theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: '#2AA1DC',
+    primary: Colors.success,
     accent: '#EA4335',
   },
 };

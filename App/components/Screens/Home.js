@@ -77,7 +77,7 @@ export default function Home() {
       },[])
     return (
      <View style={styles.container}>
-     <StatusBar backgroundColor={Colors.primary}/>
+     <StatusBar backgroundColor='white'/>
      <View style={styles.header}>
      <TextInput
      placeholder='Search state,categories'
@@ -199,3 +199,9 @@ const styles = StyleSheet.create({
         alignItems:'center'
     }
 })
+
+
+
+
+
+// adb -s 037852593E003913 reverse tcp:8081 tcp:8081

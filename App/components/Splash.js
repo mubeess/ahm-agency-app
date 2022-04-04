@@ -8,17 +8,17 @@ import { Button } from 'react-native-paper';
 export default function Splash({proceed}) {
     return (
         <View style={styles.container}>
-           <StatusBar backgroundColor={Colors.primary}/>
-           <Image style={styles.img} source={require('../../assets/images/logo.png')}/>
-           <Text style={styles.txt}>AHM DILLALI AGENCY</Text>
+           <StatusBar backgroundColor='white'/>
+           <Image style={styles.img} source={require('../../assets/images/ahmlogo.png')}/>
+           <Text style={styles.txt}>AHM BELLO AGENCY</Text>
            <Text style={styles.det}>
-               Discover available products and materials on our plartform!
+               Discover available properties and products on our plartform!
            </Text>
            <View style={styles.icon}>
-           <Image style={styles.img} source={require('../../assets/images/ico.png')}/>
+           <Image style={styles.img2} source={require('../../assets/images/ico.png')}/>
            <Button onPress={()=>{
                proceed()
-           }} icon='arrow-right-bold-circle' dark color='white' style={{
+           }} icon='arrow-right-bold-circle' dark  style={{
                width:'80%',
                marginTop:10,
            }} mode='outlined'>Proceed</Button>
@@ -33,21 +33,22 @@ const styles = StyleSheet.create({
     container:{
         flex:1,
         flexDirection:'column',
-        backgroundColor:Colors.primary,
+        backgroundColor:'white',
         paddingTop:StatusBar.currentHeight,
         alignItems:'center'
        
     },
     img:{
-        width:200,
-        height:200,
+        width:100,
+        height:100,
         
     },
     txt:{
         fontFamily:Fonts.Pallet,
         fontSize:20,
         textAlign:'center',
-        color:'black'
+        color:'black',
+        marginTop:20
     },
     icon:{
         flex:1,
@@ -62,6 +63,11 @@ const styles = StyleSheet.create({
     det:{
         fontFamily:Fonts.PoppinsRegular,
         fontSize:20,
-        marginTop:20
+        marginTop:50
+    },
+    img2:{
+        width:200,
+        height:200,
+        
     }
 })
