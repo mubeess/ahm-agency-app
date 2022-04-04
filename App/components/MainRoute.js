@@ -10,8 +10,8 @@ function MainRoute() {
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      activeColor="white"
-      barStyle={{ backgroundColor: Colors.primary }}
+      activeColor="black"
+      barStyle={{ backgroundColor: '#ffffff' }}
     >
       <Tab.Screen
         name="Home"
