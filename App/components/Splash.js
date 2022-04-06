@@ -7,25 +7,36 @@ import { Button } from 'react-native-paper';
 
 export default function Splash({proceed}) {
     return (
-        <View style={styles.container}>
-           <StatusBar backgroundColor='white'/>
+        <LinearGradient colors={[Colors.success,Colors.success,'rgba(52, 168, 83,0.3)']} style={styles.container}>
+           <StatusBar backgroundColor={Colors.success}/>
+           <View style={{
+               width:80,
+               height:80,
+               justifyContent:'center',
+               alignItems:'center',
+               backgroundColor:'white',
+               borderRadius:50,
+               elevation:5
+           }}>
            <Image style={styles.img} source={require('../../assets/images/ahmlogo.png')}/>
+           </View>
+           
            <Text style={styles.txt}>AHM BELLO AGENCY</Text>
            <Text style={styles.det}>
                Discover available properties and products on our plartform!
            </Text>
            <View style={styles.icon}>
-           <Image style={styles.img2} source={require('../../assets/images/ico.png')}/>
+           <Image style={styles.img2} source={require('../../assets/images/se.png')}/>
            <Button onPress={()=>{
                proceed()
            }} icon='arrow-right-bold-circle' dark  style={{
                width:'80%',
                marginTop:10,
-           }} mode='outlined'>Proceed</Button>
+           }} mode='contained'>Proceed</Button>
            </View>
            
            
-        </View>
+        </LinearGradient>
     )
 }
 
@@ -39,15 +50,15 @@ const styles = StyleSheet.create({
        
     },
     img:{
-        width:100,
-        height:100,
+        width:70,
+        height:70,
         
     },
     txt:{
         fontFamily:Fonts.Pallet,
         fontSize:20,
         textAlign:'center',
-        color:'black',
+        color:'white',
         marginTop:20
     },
     icon:{
@@ -63,7 +74,8 @@ const styles = StyleSheet.create({
     det:{
         fontFamily:Fonts.PoppinsRegular,
         fontSize:20,
-        marginTop:50
+        marginTop:50,
+        color:'white'
     },
     img2:{
         width:200,

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FlatList, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, Keyboard, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Colors } from '../../colors'
 import { Button, TextInput } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -16,17 +16,20 @@ export default function Home() {
     const [networkAvailable,setNetwork]=useState(true)
     const [refreshing,setRefreshing]=useState(false)
     const [data,setData]=useState([])
+    const [filTerdData,setFiltered]=useState([])
+   
 
     const loadData=()=>{
         if (!networkAvailable) {
             return setNetwork(false),setLoading(false)
         }else{
-            setRefreshing(true)
             fetch('https://dillali.herokuapp.com/products')
             .then(res=>{
                 res.json()
                 .then(data=>{
+                setFiltered(data)
                 setData(data)
+
                 setLoading(false)
                 setRefreshing(false)
                    
@@ -56,6 +59,8 @@ export default function Home() {
         if (networkAvailable !== state.isConnected) {
           setNetwork(!!state.isConnected && !!state.isInternetReachable);
         }
+       
+        
       });
 
     
@@ -75,6 +80,10 @@ export default function Home() {
           });
         
       },[])
+  const handleRefresh=()=>{
+    setRefreshing(true)
+    loadData()
+  }
     return (
      <View style={styles.container}>
      <StatusBar backgroundColor='white'/>
@@ -90,7 +99,11 @@ export default function Home() {
       value={text}
       onChangeText={text => setText(text)}
     />
-    <TouchableOpacity style={{
+    <TouchableOpacity onPress={()=>{
+       const myFil=data.filter(dat=>dat.state.toLocaleLowerCase().includes(text.toLocaleLowerCase()) ||dat.lga.toLocaleLowerCase().includes(text.toLocaleLowerCase()) ||dat.address.toLocaleLowerCase().includes(text.toLocaleLowerCase()))
+       setFiltered(myFil)
+       Keyboard.dismiss()
+    }} style={{
         marginLeft:10
     }}>
     <MaterialCommunityIcons  name="magnify" color='black' size={26}/>
@@ -105,11 +118,14 @@ export default function Home() {
          borderColor:'white'
      }} onPress={()=>{
          setCurrent(0)
+         setFiltered(data)
      }} labelStyle={{fontSize:8}} mode={currentInd==0?'contained':'text'}>All</Button>
      <Button style={{
          borderWidth:0,
          borderColor:'white'
      }}  onPress={()=>{
+         const myFil=data.filter(dat=>dat.category.toLocaleLowerCase().includes('housing'))
+         setFiltered(myFil)
          setCurrent(1)
      }} labelStyle={{fontSize:8}} mode={currentInd==1?'contained':'text'}>Housing</Button>
      <Button style={{
@@ -117,18 +133,24 @@ export default function Home() {
          borderColor:'white'
      }}  onPress={()=>{
          setCurrent(2)
+         const myFil=data.filter(dat=>dat.category.toLocaleLowerCase().includes('clothing'))
+         setFiltered(myFil)
      }} labelStyle={{fontSize:8}} mode={currentInd==2?'contained':'text'}>Clothing</Button>
      <Button style={{
          borderWidth:0,
          borderColor:'white'
      }}  onPress={()=>{
          setCurrent(3)
+         const myFil=data.filter(dat=>dat.category.toLocaleLowerCase().includes('electronics'))
+         setFiltered(myFil)
      }} labelStyle={{fontSize:8}} mode={currentInd==3?'contained':'text'}>Electronics</Button>
      <Button style={{
          borderWidth:0,
          borderColor:'white'
      }}  onPress={()=>{
          setCurrent(4)
+         const myFil=data.filter(dat=>dat.category.toLocaleLowerCase().includes('others'))
+         setFiltered(myFil)
      }} labelStyle={{fontSize:8}} mode={currentInd==4?'contained':'text'}>Others</Button>
      
      
@@ -138,9 +160,14 @@ export default function Home() {
        networkAvailable&&
        (
         <FlatList
+    ListEmptyComponent={()=>(
+        <View style={{justifyContent:'center',alignItems:'center',flex:1}}>
+            <Text>No Record Found!</Text>
+        </View>
+    )}
     refreshing={refreshing}
-    onRefresh={loadData}
-    data={data}
+    onRefresh={handleRefresh}
+    data={filTerdData}
     renderItem={renderItem}
     keyExtractor={item => item._id}
 

@@ -3,6 +3,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Home from './Screens/Home';
 import React from 'react'
 import { Colors } from '../colors';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const Tab = createMaterialBottomTabNavigator();
 

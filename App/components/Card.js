@@ -1,14 +1,16 @@
 import React,{ useState }  from 'react'
-import { Image, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Dimensions, Image, StatusBar, StyleSheet, Text, TouchableOpacity, View,ScrollView, Linking } from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Fonts } from '../fonts';
 import Modal from "react-native-modal";
 import { Button } from 'react-native-paper';
 import { Colors } from '../colors';
-
+import Carousel from 'react-native-reanimated-carousel';
+import { FAB } from 'react-native-paper';
 
 const Card = ({item}) => {
     const [modalVisible,setModal]=useState(false)
+    const ref = React.useRef()
     return (
         <TouchableOpacity onPress={()=>{
             setModal(true)
@@ -30,7 +32,7 @@ const Card = ({item}) => {
             paddingTop:StatusBar.currentHeight
           
         }} isVisible={modalVisible}>
-        <View style={styles.modal}>
+        <ScrollView style={styles.modal}>
         <TouchableOpacity onPress={()=>{
             setModal(false)
         }}>
@@ -41,9 +43,161 @@ const Card = ({item}) => {
             }}  name="close-circle" color='black' size={26}/>
         </TouchableOpacity>
          <View style={styles.modalHead}>
-         
+    <Carousel
+    ref={ref}
+    pagingEnabled={true}
+    snapEnabled={true}
+    style={{
+        backgroundColor:'blue'
+    }}
+    vertical={false}
+    width={Dimensions.get('window').width-40}
+    height={200}
+    autoPlay={false}
+    data={item.images}
+    renderItem={({ item }) => <View style={{
+        width:'100%',
+        height:300,
+        backgroundColor:'white',
+        position:'relative'
+    }
+        }>
+        {
+            item.url.includes('.jpeg')||item.url.includes('.jpg')||item.url.includes('.png')?
+            <Image resizeMode='contain' style={{
+                height:'100%',
+                width:'100%'
+            }} source={{uri:item.url}}/>:
+            null
+        }
+        
+        <TouchableOpacity style={{
+        marginLeft:20,
+        position:'absolute',
+        left:0,
+        top:80,
+        bottom:0
+
+        }} onPress={()=>{
+            ref.current.prev()
+        }}>
+        <MaterialCommunityIcons style={{
+               
+            }}  name="chevron-left" color='black' size={36}/>
+        </TouchableOpacity>
+        <TouchableOpacity style={{
+        marginRight:20,
+        position:'absolute',
+        right:0,
+        top:80,
+        bottom:0
+
+        }} onPress={()=>{
+            ref.current.next()
+        }}>
+        <MaterialCommunityIcons style={{
+               
+            }}  name="chevron-right" color='black' size={36}/>
+        </TouchableOpacity>
+    </View>}
+/>
+
          </View>
+
+
+
+         <View style={styles.prodName}>
+          <Text>{item.category}</Text>
+          <MaterialCommunityIcons  name="star" color='#FFD700' size={26}/>
+         </View>
+
+         <View style={styles.prodName}>
+          <Text style={{
+              fontFamily:Fonts.PoppinsBold,
+              fontSize:20,
+              width:'50%'
+          }}>{item.name}</Text>
+          <Text style={{
+              fontFamily:Fonts.PoppinsBlackItalic,
+              fontSize:18,
+              marginLeft:'auto'
+          }}>₦{item.amount}</Text>
+         </View>
+
+         <Text style={{
+             textAlign:'center',
+             fontFamily:Fonts.PoppinsRegular
+         }}>Location</Text>
+         <View style={{
+             flexDirection:'row',
+             justifyContent:'space-around',
+             marginTop:10
+         }}>
+        <View style={{
+            justifyContent:'center',
+            alignItems:'center',
+
+            
+        }}>
+            <Text>State</Text>
+            <Text>{item.state}</Text>
+            <MaterialCommunityIcons  name="map-marker-radius" color='black' size={26}/>
         </View>
+
+        <View style={{
+            justifyContent:'center',
+            alignItems:'center'
+        }}>
+            <Text>Lga</Text>
+            <Text>{item.lga}</Text>
+            <MaterialCommunityIcons  name="map-marker-distance" color='black' size={26}/>
+        </View>
+
+        <View style={{
+            justifyContent:'center',
+            alignItems:'center'
+        }}>
+            <Text>Address</Text>
+            <Text style={{
+                fontSize:11,
+                width:100,
+                textAlign:'justify',
+                
+            }}>{item.address}</Text>
+            <MaterialCommunityIcons  name="map-marker-star" color='black' size={26}/>
+        </View>
+         </View>
+         <Text style={{
+             textAlign:'center',
+             marginTop:10
+         }}>Description</Text>
+         <View style={{
+             width:'100%',
+             backgroundColor:'#f9f9f9',
+             height:100,
+             borderRadius:20,
+             padding:10
+         }}>
+<Text>{item.description}</Text>
+         </View>
+        </ScrollView>
+    <View style={{
+        flexDirection:'row',
+        justifyContent:'center',
+        alignItems:'center',
+        
+    }}>
+         <MaterialCommunityIcons  name="cart-variant" color='black' size={26}/>
+        <Button onPress={()=>{
+            Linking.openURL(`tel:08032812724`)
+        }} mode='contained' style={{
+            width:'80%',
+            marginLeft:'auto',
+            backgroundColor:'black',
+            marginTop:10
+        }}>Place Order</Button>
+    </View>
+
       </Modal>
         </TouchableOpacity>
     )
@@ -94,9 +248,22 @@ const styles = StyleSheet.create({
     },
     modalHead:{
         width:'100%',
-        height:300,
+        height:200,
         backgroundColor:'#f9f9f9',
         borderBottomLeftRadius:20,
         borderBottomRightRadius:20
+    },
+    prodName:{
+        width:'100%',
+        flexDirection:'row',
+        justifyContent:'space-between',
+        marginTop:15,
+        padding:10
+    },
+    fab:{
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
     }
 })
