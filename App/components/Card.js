@@ -7,9 +7,12 @@ import { Button } from 'react-native-paper';
 import { Colors } from '../colors';
 import Carousel from 'react-native-reanimated-carousel';
 import { FAB } from 'react-native-paper';
+import Video from 'react-native-video';
 
 const Card = ({item}) => {
     const [modalVisible,setModal]=useState(false)
+    const [isPlaying, setIsPlaying] = React.useState(false); 
+    const videoPlayer = React.useRef()
     const ref = React.useRef()
     return (
         <TouchableOpacity onPress={()=>{
@@ -68,7 +71,35 @@ const Card = ({item}) => {
                 height:'100%',
                 width:'100%'
             }} source={{uri:item.url}}/>:
-            null
+            <>
+            <TouchableOpacity onPress={()=>{
+                setIsPlaying(!isPlaying)
+            }} style={{
+                position:'absolute',
+                right:0,
+                marginTop:30,
+                marginRight:Dimensions.get('window').width/3,
+                zIndex:100
+            }}>
+            <MaterialCommunityIcons style={{
+               backgroundColor:'rgba(255,255,255,0.5)',
+               borderRadius:50
+            }}  name={!isPlaying?'pause-circle-outline':'play-outline'} color='black' size={56}/>
+            </TouchableOpacity>
+            <Video
+             ref={ref => (videoPlayer.current = ref)}
+            controls={true}
+            resizeMode='contain' 
+            source={{ uri:item.url}}                  
+            paused={isPlaying}                      
+            style={{
+                height:'100%',
+                width:'100%',
+            }}  
+            repeat={false}  
+            playInBackground={false}                 
+        />
+        </>
         }
         
         <TouchableOpacity style={{
@@ -80,9 +111,11 @@ const Card = ({item}) => {
 
         }} onPress={()=>{
             ref.current.prev()
+            setIsPlaying(true)
         }}>
         <MaterialCommunityIcons style={{
-               
+                backgroundColor:'rgba(255,255,255,0.7)',
+                borderRadius:50
             }}  name="chevron-left" color='black' size={36}/>
         </TouchableOpacity>
         <TouchableOpacity style={{
@@ -94,10 +127,12 @@ const Card = ({item}) => {
 
         }} onPress={()=>{
             ref.current.next()
+            setIsPlaying(true)
         }}>
         <MaterialCommunityIcons style={{
-               
-            }}  name="chevron-right" color='black' size={36}/>
+                backgroundColor:'rgba(255,255,255,0.7)',
+                borderRadius:50
+            }}  name="chevron-right" color='black' size={46}/>
         </TouchableOpacity>
     </View>}
 />

@@ -4,6 +4,8 @@ import Home from './Screens/Home';
 import React from 'react'
 import { Colors } from '../colors';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import About from './About';
+import Contact from './Contact';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -25,22 +27,22 @@ function MainRoute() {
         }}
       />
       <Tab.Screen
-        name="Notifications"
-        component={Home}
+        name="About"
+        component={About}
         options={{
-          tabBarLabel: 'Updates',
+          tabBarLabel: 'About Us',
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="bell" color={color} size={26} />
+            <MaterialCommunityIcons name="information" color={color} size={26} />
           ),
         }}
       />
       <Tab.Screen
-        name="Profile"
-        component={Home}
+        name="Contact Us"
+        component={Contact}
         options={{
-          tabBarLabel: 'Profile',
+          tabBarLabel: 'Contact Us',
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="account" color={color} size={26} />
+            <MaterialCommunityIcons name="card-account-phone" color={color} size={26} />
           ),
         }}
       />
